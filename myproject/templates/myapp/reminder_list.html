@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block styles %}
+   <link rel="stylesheet" href="{% static 'css/main.css' %}">
+{% endblock %}
+
+{% block content %}
+  <h1 style="margin-left: 8px">Категория: {{ category.name }}</h1>
+  <div id="reminders" style="height: 100%;  position: relative;z-index: 5; display: contents">
+    {% for reminder in reminders %}
+      <div class="reminder" style="margin-left: 10px;z-index: 5;padding-right: 10px;">
+        <p class="date" style="margin: 10px 10px 10px 20px">{{ reminder.date|date:'d.m.Y' }} {{ reminder.date|time:"H:i" }}</p>
+        <h2><a href="{% url 'reminder_detail' category=category.pk pk=reminder.pk %}" style="margin: 10px 10px 10px 20px">{{ reminder.text }}</a></h2>
+        {% if reminder.completed %}
+          <p class="completed" style="margin: 10px 10px 10px 20px">Завершено</p>
+        {% else %}
+          <p class="not-completed" style="margin: 10px 10px 10px 20px">Не завершено</p>
+        {% endif %}
+      </div>
+    {% empty %}
+      <p style="margin-left: 8px">Вы все сделали в этой категории!</p>
+    {% endfor %}
+  </div>
+<div style="margin-top: 55px; position: relative;z-index: 5">
+
+{% block hidden_reminders %}
+  <h1 style="margin-left: 8px; font-size: 20px; display: flex" id="deleteMe;">Прошедшие:</h1>
+  {% for reminder in reminders %}
+    {% if reminder.completed == False %}
+      <div id="rem" class="reminder2" style="margin-left: 10px; z-index: 5; position: relative">
+        <p class="date" style="margin: 10px 10px 10px 20px">{{ reminder.date|date:'d.m.Y' }} {{ reminder.date|time:"H:i" }}</p>
+        <h2><a href="{% url 'reminder_detail' category=category.pk pk=reminder.pk %}" style="margin: 10px 10px 10px 20px">{{ reminder.text }}</a></h2>
+        {% if reminder.completed %}
+          <p class="completed" style="margin: 10px 10px 10px 20px">Завершено</p>
+        {% else %}
+          <p class="not-completed" style="margin: 10px 10px 10px 20px">Не завершено</p>
+        {% endif %}
+      </div>
+    {% endif %}
+
+
+  {% endfor %}
+  <script>
+
+        $(document).ready(function() {
+            $(".reminder2").each(function() {
+                var dateString = $(this).find(".date").text();
+                var dateParts = dateString.split(/[.: ]/);
+                var time = new Date(dateParts[2], dateParts[1]-1, dateParts[0], dateParts[3], dateParts[4]).getTime();
+
+                // Получаем текущее время и переводим его в миллисекунды
+                var currentTime = new Date().getTime();
+
+                console.log("dateTime: ", time);
+                console.log("currentTime: ", currentTime);
+        // Если время напоминания меньше или равно текущему времени,
+                 if (time > currentTime){
+                    $(this).addClass('hidden');
+                    }
+            if (time <= currentTime){
+                    $(this).removeClass('hidden');
+                    }
+});
+                 });
+
+
+  </script>
+{% endblock %}
+</div>
+
+
+
+  <!-- Добавляем код для проигрывания звука -->
+  <audio id="notification-sound" src="{% static 'sounds/sound.mp3' %}" preload="auto"></audio>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>
+        $(document).ready(function() {
+            $(".reminder").each(function() {
+                var dateString = $(this).find(".date").text();
+                var dateParts = dateString.split(/[.: ]/);
+                var time = new Date(dateParts[2], dateParts[1]-1, dateParts[0], dateParts[3], dateParts[4]).getTime();
+
+                // Получаем текущее время и переводим его в миллисекунды
+                var currentTime = new Date().getTime();
+
+                console.log("dateTime: ", time);
+                console.log("currentTime: ", currentTime);
+        // Если время напоминания меньше или равно текущему времени,
+                 if (time > currentTime){
+                    $(this).addClass('hidden');
+                    }
+            if (time <= currentTime){
+                    $(this).removeClass('hidden');
+                    }
+
+});
+                 });
+
+  </script>
+
+
+{% endblock %}

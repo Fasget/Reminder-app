@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+   <link rel="stylesheet" href="{% static 'css/main4.css' %}">
+    <style>
+   </style>
+{% endblock %}
+
+{% block content %}
+    <div class="contn">
+  <h1 style="margin-left: 10px">{{ reminder.text }}</h1>
+  {% if reminder.description %}
+    <p class="description" style="margin: 10px 10px 14px 37px">{{ reminder.description }}</p>
+  {% endif %}
+  <p class="date" style="margin: 10px 10px 10px 20px">{{ reminder.date|date }}</p>
+  {% if reminder.completed %}
+    <p class="completed" style="margin: 10px 10px 10px 20px">Завершено</p>
+  {% else %}
+    <p class="not-completed" style="margin: 10px 10px 10px 20px">Не завершено</p>
+  {% endif %}
+    <form  action="{% url 'reminder_edit' pk=reminder.pk category=category.id%}" style="box-shadow: none; border: none">
+    {% csrf_token %}
+    <input type="submit" value="Редактировать" class="btn btn-danger" style="background-size: 14px;">
+  </form>
+  <form method="post" action="{% url 'reminder_delete' pk=reminder.pk category=category.id%}" style="box-shadow: none; border: none; margin-bottom: 0">
+    {% csrf_token %}
+    <input type="submit" value="Удалить" class="btn btn-danger" style="margin-top: -5px; ">
+  </form>
+    </div>
+{% endblock %}

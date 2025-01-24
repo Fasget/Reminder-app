@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/main.css' %}">
+{% block content %}
+<h1>Личный кабинет</h1>
+<p>Изменить данные:</p>
+
+{% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      {% if 'update-profile' in message.tags %}
+        <li class="success-message">{{ message }}</li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{% endif %}
+<form method="POST" class="vertical-form" >
+  {% csrf_token %}
+  {{ user_form.as_p }}
+  <button class="btn" type="submit">Сохранить изменения</button>
+</form>
+
+<p>Изменить пароль:</p>
+{% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      {% if 'change-password' in message.tags %}
+        <li class="warning-message">{{ message }}</li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{% endif %}
+<form method="post" id="password_form" class="vertical-form" style="position: relative">
+  {% csrf_token %}
+  {{ password_form.as_p }}
+  <button class="btn" type="submit">Сменить пароль</button>
+</form>
+{% endblock %}

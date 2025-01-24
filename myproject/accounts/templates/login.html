@@ -1,0 +1,23 @@
+{% load static %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Reminder App</title>
+      <link rel="stylesheet" href="{% static 'css/main5.css' %}">
+
+  </head>
+{% block content %}
+<div class="login" style="margin: 15px">
+    <h2>Login</h2>
+
+    <form class="vertical-form" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn" type="submit">Войти</button>
+            <a href="{%  url 'register'%}" style="list-style: none; text-decoration: none;">
+        <button class="btn" type="button">Зарегистрироваться</button>
+    </a>
+    </form>
+
+</div>
+{% endblock %}

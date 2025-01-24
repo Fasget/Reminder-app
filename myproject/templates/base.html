@@ -1,0 +1,109 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="">
+  <head>
+      <meta name="HandheldFriendly" content="true">
+    <meta name="viewport" content="width=device-width">
+    <meta charset="utf-8">
+    <title>Reminder App</title>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+      <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+      <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+
+      <script src="{% static 'js/main.js' %}"></script>
+  </head>
+  <body>
+
+      <div class="wrapper" style="height: 100% " >
+        <!-- Sidebar -->
+
+        <nav id="sidebar">
+          <div class="sidebar-header">
+            <h3>Меню</h3>
+          </div>
+
+
+
+          <ul class="list-unstyled components">
+            <li>
+              <a href="{% url 'category_list' %}">Все категории</a>
+            </li>
+            <li>
+              {% if category %}
+                    <a href="{% url 'reminder_new' category=category.id %}">Новое напоминание</a>
+                {% else %}
+                    <a href="{% url 'category_new' %}">Новая категория</a>
+                {% endif %}
+            </li>
+            <li>
+              <a href="{% url 'completed_all_reminders' %}">Все выполнены</a>
+            </li>
+          </li>
+          <li>
+                {% if category %}
+                    <a href="{% url 'reminder_delete_all' %}">Удалить все</a>
+                {% else %}
+                    <a href="{% url 'category_delete_all' %}">Удалить все категории</a>
+                {% endif %}
+          </li>
+          </ul>
+            <button type="button" id="sidebarCollapseClose" class="btn btn-info">
+                <i></i>
+                <span>Закрыть</span>
+            </button>
+            <a href="{%  url 'login'%}" style="outline: none; border: none">
+            <button type="button"  class="btn" style="outline: none; border: none">
+
+                Выйти
+
+            </button>
+                </a>
+        </nav>
+
+        <!-- Page Content -->
+        <div id="content" style="height: 85%">
+
+          <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+            <div class="container-fluid">
+
+              <div class="button-container" style="width: 90%">
+                  <a class="navbar-brand ml-auto">
+
+                <button type="button" id="sidebarCollapse" class="btn btn-info" style="padding: 1px 1px 2px 1px">
+                    <i></i>
+                    &#x2630;
+                </button>
+                  </a>
+                  <a class="navbar-brand ml-auto" href="{% url 'category_list' %}">
+                    <button class="btn" style="font-size:27px;"><i class="fa fa-home"></i></button>
+                </a>
+                  {% if category %}
+                <a class="navbar-brand ml-auto" href="{% url 'reminder_new' category=category.id %}">
+                    <button class="btn" style="font-size:29px; padding: 2px 1px 1px 1px"><i></i>+</button>
+                </a>
+                  {% else %}
+                  <a class="navbar-brand ml-auto" href="{% url 'category_new' %}">
+                    <button class="btn" style="font-size:29px; padding: 2px 1px 1px 1px"><i></i>+</button>
+                </a>
+                  {% endif %}
+              <a href="{% url 'personal_account' %}" style="color: #000; display: flex; align-items: center;
+	position: absolute; right: 0px;justify-content: center; font-family: Verdana, sans-serif; width: 200px;"
+	class="username">Пользователь: {{ request.user.username }}</a>
+            </div>
+            </div>
+          </nav>
+
+          <div class="container" style="margin: 10px;height: 100%">
+            {% block content %}
+
+            {% endblock %}
+          </div>
+        </div>
+      </div>
+  </body>
+</html>

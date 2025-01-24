@@ -1,0 +1,23 @@
+/* Скрываем боковую панель */
+#sidebar {
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: -250px;
+  width: 250px;
+  background-color: #333;
+  color: #fff;
+  transition: all 0.3s;
+}
+
+/* Показываем боковую панель при нажатии на кнопку Меню */
+#sidebar.active {
+  left: 0;
+}
+
+/* Стили для кнопки Меню */
+#sidebarCollapse {
+  color: #fff;
+  font-size: 20px;
+  margin-top: 10px;
+}

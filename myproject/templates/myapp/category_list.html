@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/main.css' %}">
+{% block content %}
+  <h1 style="position:relative; text-align: center; margin-bottom: 15px">Категории</h1>
+  <ul>
+  {% if categories %}
+{% for category in categories %}
+      <li style="list-style: none;
+      border: 1px solid #ccc;
+  padding: 15px;
+  padding-left: 12px;
+
+  margin: 5px;
+    margin-bottom: 15px;
+  margin-left: -15px;
+  box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.11);
+  border-radius: 10px;"><a href="{% url 'reminder_list' category.id %}" style="font-size: 22px; padding: 10px;
+color: black;text-decoration : none;
+">{{ category.name }}</a>
+
+
+          <p class="description" style="margin: 10px 10px 14px 37px">Описание: {{ category.disc }}</p>
+          <div style="display: inline-flex; margin: 3px">
+          <a class="a1" href="{% url 'reminder_new' category=category.id %}" style="
+color: #ffffff;text-decoration : none;">Новое напоминания</a>
+</div><div style="display: inline-flex; margin: 3px">
+              <a class="a1" href="{% url 'category_edit' category=category.id %}" style="
+color: #ffffff;text-decoration : none;">Изменить</a>
+</div><div style="display: inline-flex; margin: 3px">
+                            <a class="a1" href="{% url 'category_delete' category=category.id %}" style="
+color: #ffffff;text-decoration : none;">Удалить категорию</a>
+      </div></li>
+
+    {% endfor %}
+    {% else %}
+    <p style="margin-right: 30px; position:relative; text-align: center;justify-content: center; margin-top: 50px">Вы все сделали!</p>
+  {% endif %}
+  </ul>
+{% endblock %}
